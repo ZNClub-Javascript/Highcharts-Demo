@@ -102,11 +102,11 @@ var serviceProviderDynamicDataCharts = function(){
             buttons: [{
                 count: 1,
                 type: 'minute',
-                text: '1M'
+                text: '1 Min'
             }, {
                 count: 5,
                 type: 'minute',
-                text: '5M'
+                text: '5 Min'
             }, {
                 type: 'all',
                 text: 'All'
@@ -120,10 +120,17 @@ var serviceProviderDynamicDataCharts = function(){
         exporting: {
             enabled: true
         },
+        plotOptions: {
+          spline: {
+            marker: {
+              enabled: true
+            }
+          }
+        },
         series: [{
-            type: 'area',
+            type: 'spline',
             name: 'Random data per millisecond',
-            data: [10000000, 100]
+            data: [0, 0]
         }]
     });
 };
@@ -167,7 +174,7 @@ var initiallyEmptyDynamicDataCharts = function(){
                 type: 'all',
                 text: 'All'
             }],
-            inputEnabled: true,
+            inputEnabled: false,
             selected: 0
         },
         title: {
