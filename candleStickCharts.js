@@ -15,51 +15,50 @@ var singleStockCandlestickVolumneSliderChart = function(){
     var vol = [];
     var turn = [];
 
-  // set the allowed units for data grouping
-  var groupingUnits = [
-  [
-        'week', // unit name
+    // set the allowed units for data grouping
+    var groupingUnits = [
+      ['week', // unit name
         [1] // allowed multiples
-        ],
-        [
-        'month', [1, 2, 3, 4, 6]
-        ]
-        ],
+      ],
+      ['month', 
+        [1, 2, 3, 4, 6]
+      ]
+    ],
 
-        i = size-1;
+    i = size-1;
 
 
-        for (i; i >=0; i -= 1) {
-          //format date to utc
-          var dates = date[i].split('-');
-          //adjust month
-          var m = dates[1];
-          m = parseInt(m) - 1;
-          m = m.toString();
-          if (m.length == 1) {
-            m = "0" + m;
-          }
-          var dateUTC = Date.UTC(dates[0], m, dates[2]);
+    for (i; i >=0; i -= 1) {
+      //format date to utc
+      var dates = date[i].split('-');
+      //adjust month
+      var m = dates[1];
+      m = parseInt(m) - 1;
+      m = m.toString();
+      if (m.length == 1) {
+        m = "0" + m;
+      }
+      var dateUTC = Date.UTC(dates[0], m, dates[2]);
 
-          ohlc.push([
-            dateUTC,
-            open[i],
-            high[i],
-            low[i],
-            close[i]
-            ]);
+      ohlc.push([
+        dateUTC,
+        open[i],
+        high[i],
+        low[i],
+        close[i]
+        ]);
 
-          vol.push([
-            dateUTC,
-            volume[i]
-            ]);
-          
-          turn.push([
-          	dateUTC,
-            turnover[i]
-            ]);
-          //console.log(vol);
-        }
+      vol.push([
+        dateUTC,
+        volume[i]
+        ]);
+      
+      turn.push([
+      	dateUTC,
+        turnover[i]
+        ]);
+      //console.log(vol);
+    }
 
 
   // Single Stock Candlestick + Volumne with date range window slider
