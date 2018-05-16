@@ -1,6 +1,6 @@
 
 var singleStockCandlestickVolumneSliderChart = function(){
-  
+
   $.getJSON('https://cdn.rawgit.com/ZNClub-PA-ML-AI/Sentiment-analysis-using-Business-News/3f288088/NSE-RELIANCE.json', function(data) {
     var open = data['Open'];
     var high = data['High'];
@@ -30,36 +30,36 @@ var singleStockCandlestickVolumneSliderChart = function(){
 
 
         for (i; i >=0; i -= 1) {
-    //format date to utc
-    var dates = date[i].split('-');
-    //adjust month
-    var m = dates[1];
-    m = parseInt(m) - 1;
-    m = m.toString();
-    if (m.length == 1) {
-      m = "0" + m;
-    }
-    var dateUTC = Date.UTC(dates[0], m, dates[2]);
+          //format date to utc
+          var dates = date[i].split('-');
+          //adjust month
+          var m = dates[1];
+          m = parseInt(m) - 1;
+          m = m.toString();
+          if (m.length == 1) {
+            m = "0" + m;
+          }
+          var dateUTC = Date.UTC(dates[0], m, dates[2]);
 
-    ohlc.push([
-      dateUTC,
-      open[i],
-      high[i],
-      low[i],
-      close[i]
-      ]);
+          ohlc.push([
+            dateUTC,
+            open[i],
+            high[i],
+            low[i],
+            close[i]
+            ]);
 
-    vol.push([
-      dateUTC,
-      volume[i]
-      ]);
-    
-    turn.push([
-    	dateUTC,
-      turnover[i]
-      ]);
-    //console.log(vol);
-  }
+          vol.push([
+            dateUTC,
+            volume[i]
+            ]);
+          
+          turn.push([
+          	dateUTC,
+            turnover[i]
+            ]);
+          //console.log(vol);
+        }
 
 
   // Single Stock Candlestick + Volumne with date range window slider
@@ -120,77 +120,79 @@ var singleStockCandlestickVolumneSliderChart = function(){
       }]
     });
   };
+
+  createChart();
 });
 
 };
-  // Multiple Stock Candlestick + Volumne with date range window slider
+// Multiple Stock Candlestick + Volumne with date range window slider
 
-  var multipleStockCandlestickVolumneSliderChart = function(){
+var multipleStockCandlestickVolumneSliderChart = function(){
 
-    var seriesOptions = [],
-    seriesCounter = 0,
-    names = ['MSFT', 'AAPL', 'GOOG'];
+  var seriesOptions = [],
+  seriesCounter = 0,
+  names = ['MSFT', 'AAPL', 'GOOG'];
 
-    var createChart = function () {
+  var createChart = function () {
 
-      Highcharts.stockChart('container', {
+    Highcharts.stockChart('container2', {
 
-        rangeSelector: {
-          selected: 4
-        },
+      rangeSelector: {
+        selected: 4
+      },
 
-        yAxis: {
-          labels: {
-            formatter: function () {
-              return (this.value > 0 ? ' + ' : '') + this.value + '%';
-            }
-          },
-          plotLines: [{
-            value: 0,
-            width: 2,
-            color: 'silver'
-          }]
-        },
-
-        plotOptions: {
-          series: {
-            compare: 'percent',
-            showInNavigator: true
+      yAxis: {
+        labels: {
+          formatter: function () {
+            return (this.value > 0 ? ' + ' : '') + this.value + '%';
           }
         },
+        plotLines: [{
+          value: 0,
+          width: 2,
+          color: 'silver'
+        }]
+      },
 
-        tooltip: {
-          pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
-          valueDecimals: 2,
-          split: true
-        },
-
-        series: seriesOptions
-      });
-    };
-
-    $.each(names, function (i, name) {
-
-      $.getJSON('https://www.highcharts.com/samples/data/' + name.toLowerCase() + '-c.json',    function (data) {
-
-        seriesOptions[i] = {
-          name: name,
-          data: data
-        };
-
-        // As we're loading the data asynchronously, we don't know what order it will arrive. So
-        // we keep a counter and create the chart when all the data is loaded.
-        seriesCounter += 1;
-
-        if (seriesCounter === names.length) {
-          createChart();
+      plotOptions: {
+        series: {
+          compare: 'percent',
+          showInNavigator: true
         }
-      });
-    });
+      },
 
+      tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+        valueDecimals: 2,
+        split: true
+      },
+
+      series: seriesOptions
+    });
   };
 
+  $.each(names, function (i, name) {
 
-  singleStockCandlestickVolumneSliderChart();
+    $.getJSON('https://www.highcharts.com/samples/data/' + name.toLowerCase() + '-c.json',    function (data) {
 
-  multipleStockCandlestickVolumneSliderChart();
+      seriesOptions[i] = {
+        name: name,
+        data: data
+      };
+
+      // As we're loading the data asynchronously, we don't know what order it will arrive. So
+      // we keep a counter and create the chart when all the data is loaded.
+      seriesCounter += 1;
+
+      if (seriesCounter === names.length) {
+        createChart();
+      }
+    });
+  });
+
+};
+
+
+singleStockCandlestickVolumneSliderChart();
+
+multipleStockCandlestickVolumneSliderChart();
