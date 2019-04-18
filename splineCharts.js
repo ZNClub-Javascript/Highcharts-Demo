@@ -43,7 +43,7 @@ $.getJSON('https://raw.githubusercontent.com/ZNClub-PA-ML-AI/Sentiment-analysis-
 
 console.log(response);
 
-Highcharts.chart('container', {
+Highcharts.chart('spline-container-1', {
 	chart: {
 		type: 'spline',
 		zoomType: 'x'
