@@ -136,23 +136,20 @@ const data = [
   }
 ];
 const imageStyle = {
-  padding: "4px",
-  float: "left",
+  padding: "5px",
+  // float: "left",
   display: "inline",
   height: "50px",
   width: "50px"
 };
 const profileStyle = {
-  textAlign: "center"
+  // textAlign: "left",
+  // margin: "5px",
+  display: "inline-block"
 };
-const CardList = ({data}) => (
-  <div>
-    {data.map(profile => <Card profile={profile}/> )}
-  </div>
-);
 
-const Card = ({profile}) => (
-  <div align="center">
+const Card = ({ profile, imageStyle={} }) => (
+  <div>
     <img style={imageStyle} src={profile.avatar_url} alt="profile-image"/>
     <div style={profileStyle}>
         <div>{profile.name}
@@ -161,13 +158,47 @@ const Card = ({profile}) => (
     </div>
   </div>
 );
-
-const App = () =>
-(
+const CardList = ({data}) => (
   <div>
-    <CardList data={data}/>
+    {data.map(profile => <Card profile={profile} imageStyle={imageStyle} /> )}
   </div>
 );
+const Form = ({addUsername}) => {
+  let [username, setUsername] = useState("");
+  const onFormSubmit = event => {
+    console.log('preventDefault');
+    event.preventDefault();
+    console.log('addUsername');
+    addUsername(username);
+    console.log('done');
+  };
+  return (
+    <form onSubmit={onFormSubmit} >
+      <input id="username" type="text" placeholder="Github username"
+        value={username} onChange={ event => setUsername(event.target.value) }
+        />
+      <button>Add</button>
+    </form>
+  );
+};
+const App = () => {
+  const [list,setList] = useState(data);
+  return (
+  <div>
+    <Form addUsername={ (user) =>
+        setList( (list) => [...list,
+                           {
+                              name:user,
+                              avatar_url:'http://placehold.it/100/FA6F57/fff&text='+user,
+                              followers:-1
+                            }]
+               )
+      }/>
+    <CardList data={list}/>
+  </div>
+  );
+
+};
 
 ReactDOM.render(
   <App />
